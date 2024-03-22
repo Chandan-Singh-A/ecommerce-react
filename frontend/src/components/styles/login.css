@@ -1,0 +1,64 @@
+body {
+    background-color: black;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url("https://www.wallpaperflare.com/dark-space-wallpaper-umaoi/download/3840x2400");
+    /* background-image: url("https://media4.giphy.com/media/S7nF0HAVEBxUu76pxR/giphy.webp?cid=790b7611mthtfl74784vh6mdqjzbtvnn2mdj43cluq3gqvph&ep=v1_gifs_search&rid=giphy.webp&ct=g"); */
+}
+
+#login-div {
+    background-color: rgb(125, 72, 179);
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+}
+
+#details {
+    margin-bottom: 15px;
+}
+
+#details label {
+    display: block;
+    font-weight: bold;
+}
+
+#details input[type="email"] {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+#details input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+#details input[type="submit"] {
+    background-color: #007bff;
+    color: cornsilk;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+a:hover {
+    color: snow;
+    font-size: large;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+}

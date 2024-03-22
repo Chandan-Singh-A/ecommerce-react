@@ -1,0 +1,103 @@
+.product {
+    width: 290px;
+    height: 350px;
+    margin-left: 10px;
+    background-color: whitesmoke;
+    margin-bottom: 35px;
+}
+
+.product p {
+    color: slategrey;
+}
+
+.main-div {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.img {
+    width: 290px;
+    height: 200px;
+}
+
+#product-name {
+    margin-top: 0;
+}
+
+#add-item {
+    background-color: blue;
+}
+
+#header {
+    display: flex;
+    background-color: black;
+    color: aliceblue;
+    margin-top: 100px;
+}
+
+#header-site {
+    margin: 0;
+}
+
+#container {
+    background-color: #2d2b2b;
+    margin-top: 50px;
+}
+
+nav {
+    display: flex;
+    justify-content: flex-end;
+    /* Changed to flex-end for right alignment */
+    background-color: #444;
+    padding: 10px;
+}
+
+nav h2 {
+    color: white;
+    text-decoration: none;
+    margin: 0 20px;
+    cursor: pointer;
+}
+
+.nav h2 {
+    margin-top: 0;
+}
+
+button {
+    background-color: slategray;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    /* Adjusted padding */
+    cursor: pointer;
+}
+
+nav h2:hover {
+    color: green;
+}
+
+#checklogindiv {
+    display: block;
+}
+
+#checknotlogindiv {
+    display: none;
+}
+
+.navBtn {
+    padding: 8px 13px;
+    background-color: rgb(38, 175, 229);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+
+.cartbutton {
+    margin-left: 70px;
+}
