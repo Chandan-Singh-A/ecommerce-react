@@ -24,7 +24,7 @@ module.exports = function (email, name, body, subject) {
         ],
     })
     request.then(function (result) {
-        console.log("Result=", result.body);
+        // console.log("Result=", result.body);
     })
         .catch(function (error) {
             console.log(error);

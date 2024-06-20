@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import './index.css'
+
+// import './index.css'
 import './components/styles/homepage.css'
 import { RouterProvider, createBrowserRouter, } from "react-router-dom";
 import { Signupcomponent } from './components/modules/signup.jsx';
 import { Homepagecomponent } from './components/modules/homepage.jsx';
+import {Cartpagecomponent} from './components/modules/cartpage.jsx'; 
 
 const router = createBrowserRouter([
   {
@@ -14,7 +16,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element:<App/>
+    element:<App/>,
+    
   },
   {
     path:"/signup",
@@ -26,7 +29,17 @@ const router = createBrowserRouter([
   },
   {
     path:"/",
-    element:<Homepagecomponent/>
+    element:<Homepagecomponent/>,
+    // children:[
+    //   {
+    //     path:"mycart",
+    //     element:<Mycart/>
+    //   }
+    // ]
+  },
+  {
+    path:"/cart",
+    element:<Cartpagecomponent/>
   }
 ])
 ReactDOM.createRoot(document.getElementById('root')).render(

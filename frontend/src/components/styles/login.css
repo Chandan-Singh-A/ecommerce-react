@@ -1,20 +1,17 @@
-body {
-    background-color: black;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-image: url("https://www.wallpaperflare.com/dark-space-wallpaper-umaoi/download/3840x2400");
-    /* background-image: url("https://media4.giphy.com/media/S7nF0HAVEBxUu76pxR/giphy.webp?cid=790b7611mthtfl74784vh6mdqjzbtvnn2mdj43cluq3gqvph&ep=v1_gifs_search&rid=giphy.webp&ct=g"); */
-}
-
 #login-div {
     background-color: rgb(125, 72, 179);
-    padding: 20px;
+    padding: 22px;
     border-radius: 5px;
-    width: 300px;
+    width: 29%;
+    /* margin: auto; */
+    margin: 8% auto;
+    border: 3px solid black;
+}
+
+#login-div>h2 {
+    margin: 10px 0 20px 0;
+    font-size: 2.1em;
+    color: #dadada;
 }
 
 #details {
@@ -26,18 +23,17 @@ body {
     font-weight: bold;
 }
 
-#details input[type="email"] {
-    width: 90%;
+#details input {
+    width: 100%;
     padding: 10px;
     border: 1px solid black;
     border-radius: 3px;
+    margin: 3px 0;
+    background-color: #d7d7d7;
 }
 
-#details input[type="password"] {
-    width: 90%;
-    padding: 10px;
-    border: 1px solid black;
-    border-radius: 3px;
+#details label {
+    color: #dadada;
 }
 
 #details input[type="submit"] {
@@ -61,4 +57,22 @@ button {
     border-radius: 5px;
     padding: 10px;
     cursor: pointer;
+    cursor: pointer;
+    width: 100%;
+    /* margin: 20px auto; */
+}
+
+a {
+    color: #c3cdee;
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+#forgot-password {
+    float: right;
+
+}
+
+p {
+    text-align: center;
 }

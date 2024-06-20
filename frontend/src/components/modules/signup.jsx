@@ -8,11 +8,12 @@ export function Signupcomponent() {
     const [msg, setMessage] = useState("");
 
     const signup = () => {
-        fetch("http://127.0.0.1:7700/signup", {
+        fetch("http://localhost:7700/signup", {
             method: "POST",
             headers: {
-                'content-type': 'application/json'
+                'content-type':'application/json'
             },
+            credentials:"include",
             body: JSON.stringify({ email, pass, name })
         })
             .then((result) => {
