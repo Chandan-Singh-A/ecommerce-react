@@ -42,7 +42,7 @@ function checkuserquery(ob) {
     })
 }
 
-function verifymailquery(id) {
+function verifymail(id) {
     return new Promise((resolve, reject) => {
         con.query(`update users set isverified=1 where _id=${id};`, (err, data) => {
             if (err) {
@@ -53,4 +53,54 @@ function verifymailquery(id) {
         })
     })
 }
-module.exports={checkuniqueuserquery,saveuserdbquery,checkuserquery,verifymailquery}
+
+function checkuniquesellerquery(mail) {
+    console.log("mail=", mail);
+    return new Promise((resolve, reject) => {
+        con.query(`select * from seller where sellermail='${mail}'`, (err, data) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(data);
+            }
+        })
+    })
+}
+
+function savesellerdbquery(ob) {
+    return new Promise((resolve, reject) => {
+        con.query(`insert into seller values ('${ob.email}','${ob.username}','${ob.pass}','${ob.bName}',${ob.isverified},${ob.isverifiedAdmin},${ob.id})`, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        })
+    })
+}
+
+function checksellerquery(ob) {
+    return new Promise((resolve, reject) => {
+        con.query(`select * from seller where sellermail='${ob.email}' and isverified=1`, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        })
+    })
+}
+
+function verifysellermail(id) {
+    console.log(id);
+    return new Promise((resolve, reject) => {
+        con.query(`update seller set isverified=1 where _id=${id}`, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        })
+    })
+}
+module.exports = { checkuniqueuserquery, saveuserdbquery, checkuserquery, verifymail, checkuniquesellerquery, savesellerdbquery, verifysellermail, checksellerquery }

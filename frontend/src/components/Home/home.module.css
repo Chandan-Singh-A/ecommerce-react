@@ -1,4 +1,48 @@
-.product{
+.container {
+    width: 100%;
+    height: 100vh;
+}
+
+.header {
+    height: 7vh;
+    width: 100%;
+    background-color: slategray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 30px;
+    position: sticky;
+    top: 0;
+    left: 0;
+}
+
+.header h1 {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.content {
+    height: 88vh;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding-block: 20px;
+    grid-row-gap: 20px;
+    grid-gap: 20px;
+    padding: 10 auto;
+    overflow-y: scroll;
+}
+
+.nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    gap: 10px;
+    padding-right: 20px;
+    background-color: red;
+    color: yellow;
+}
+.product {
     height: 400px;
     width: 300px;
     margin: auto;
@@ -7,13 +51,13 @@
     overflow: hidden;
 }
 
-.product:hover{
+.product:hover {
     scale: 0.98;
     transition: .5s ease-in-out;
     box-shadow: 4px 4px 12px grey;
 }
 
-.imgBox{
+.imgBox {
     padding: 10px;
     width: 100%;
     height: 70%;
@@ -21,7 +65,7 @@
     overflow: hidden;
 }
 
-.imgBox img{
+.imgBox img {
     height: 100%;
     width: 100%;
     border-radius: 16px 16px 0px 0px;
@@ -29,24 +73,23 @@
     object-fit: cover;
 }
 
-.imgBox img:hover{
+.imgBox img:hover {
     scale: 1.2;
     transition: .8s ease-in-out;
 }
 
-.details{
+.details {
     height: 20%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
 }
 
-.details p{
+.details p {
     padding-left: 10px;
 }
 
-.action{
-    /* padding-block: 5px; */
+.action {
     height: 10%;
     display: flex;
     justify-content: space-between;
@@ -55,11 +98,12 @@
     padding-inline: 10px;
 }
 
-.action  button{
+.action button {
     height: 90%;
     width: 50%;
 }
-.footer{
+
+.footer {
     height: 5vh;
     display: flex;
     justify-content: center;

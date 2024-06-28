@@ -3,7 +3,6 @@ const query = require('../utilities/homequery');
 function loadproducts(req, res) {
     query.loadproductsquery(req.params.first,req.params.second)
         .then((result) => {
-            console.log("res=",result);
             res.status(200).json(result)
         }).catch((err) => {
             console.log(err);

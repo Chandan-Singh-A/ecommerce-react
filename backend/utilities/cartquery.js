@@ -20,8 +20,6 @@ function joinquery(req){
              })
     })
 }
-// select p.productname, p.productprice, p.productquant, c.productquant, c.userid, c._id from product p, cart c
-            //  where c.username = '${req.session.username}' 
 
 function loadcartquery(req){
     return new Promise((resolve,reject)=>{
@@ -35,9 +33,24 @@ function loadcartquery(req){
     })
 }
 
-function getprouctinfo(id){
+function getcartinfo(id){
     return new Promise((resolve,reject)=>{
-        con.query(`select * from product where _id=${id}`,(err,data)=>{
+        con.query(`select p.productquant as pquant,c.productquant as cquant from cart c
+                    INNER JOIN product p
+                    ON p._id=c.userid
+                    WHERE c._id=${id}`,(err,data)=>{
+            if(err){
+                reject(err);
+            }else{
+                resolve(data);
+            }
+        });
+    })
+}
+
+function updatecartquery(id,quant){
+    return new Promise((resolve,reject)=>{
+        con.query(`update cart set productquant=${quant} where _id=${id}`,(err,data)=>{
             if(err){
                 reject(err);
             }else{
@@ -47,4 +60,16 @@ function getprouctinfo(id){
     })
 }
 
-module.exports={loadcartquery,getprouctinfo,joinquery}
+function deletecart(id){
+    return new Promise((resolve,reject)=>{
+        con.query(`delete from cart where _id=${id}`,(err,data)=>{
+            if(err){
+                reject(err);
+            }else{
+                resolve(data);
+            }
+        })
+    })
+}
+
+module.exports={loadcartquery,joinquery,getcartinfo,updatecartquery,deletecart}

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import style from './style.module.css'
 export function Signupcomponent() {
     const navigate = useNavigate()
     const [email, setEmail] = useState("");
@@ -34,27 +35,25 @@ export function Signupcomponent() {
     }
 
     return (
-        <div id="login-div" className="login-div"> {/* Add id="login-div" */}
+        <div className={style.logindiv}> {/* Add id="login-div" */}
             <h2>SignUp Page</h2>
-            <div className="details" id="details"> {/* Add id="details" */}
+            <div className={style.details}> {/* Add id="details" */}
                 <label htmlFor="name">Username:</label>
                 <input type="text" value={name} onInput={e => setName(e.target.value)} />
             </div>
-            <div className="details" id="details"> {/* Add id="details" */}
+            <div className={style.details}> {/* Add id="details" */}
                 <label htmlFor="email">Email:</label>
                 <input type="email" value={email} onInput={e => setEmail(e.target.value)} />
             </div>
-            <div className="details" id="details"> {/* Add id="details" */}
+            <div className={style.details} id="details"> {/* Add id="details" */}
                 <label htmlFor="password">Password:</label>
                 <input type="password" value={pass} onInput={e => setPass(e.target.value)} />
             </div>
-            <div className="details" id="details"> {/* Add id="details" */}
+            <div className={style.details} id="details"> {/* Add id="details" */}
                 <button id="login-button" onClick={e => signup()}>Signup</button>
             </div>
-            {/* <Link to="/forgotpassword">Forgot Password?</Link> */}
-            {/* <br /> */}
             <p>Already has Account? <a href="/login">Login Here👈</a></p>
-            {/* <Link to="/login">Already Has a Account Login</Link> */}
+            <p>Sign up as a Seller <a href="/seller/signup">Signup Here👈</a></p>
             <p style={{ color: "blue" }}>{msg}</p>
         </div>
     )

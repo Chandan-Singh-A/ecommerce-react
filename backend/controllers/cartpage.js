@@ -1,30 +1,57 @@
 const query=require("../utilities/cartquery")
 
 function loadcart(req,res){
-    query.joinquery(req)
+    if(!req.session.login){
+        res.status(300).send();
+    }else{
+        query.joinquery(req)
+        .then((result) => {
+            res.status(200).send(result);
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+}
+
+function updatecart(req,res){
+    query.getcartinfo(req.params.id)
     .then((result) => {
-        res.status(200).send(result);
+        let cquant=result[0].cquant;
+        console.log(req.params.id,req.params.op);
+        let pquant=result[0].pquant;
+        if(req.params.op==='true'){
+            cquant=cquant+1;
+            if(cquant>pquant){
+                res.status(300).send();//limit exceed
+            }else{
+                query.updatecartquery(req.params.id,cquant)
+                .then((result) => {
+                    res.status(200).send();//increment by 1
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+        }else{
+            cquant=cquant-1;
+            if(cquant==0){
+                query.deletecart(req.params.id)
+                .then((result) => {
+                    res.status(350).send();//delete cart
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }else{
+                query.updatecartquery(req.params.id,cquant)
+                .then((result) => {
+                    res.status(200).send();
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+        }
     }).catch((err) => {
         console.log(err);
     });
+    
 }
-
-// function loadcart(req,res){
-//     let data=[];
-//     query.loadcartquery(req,res)
-//     .then((cartresult) => {
-//         result.forEach(element => {
-//             query.getprouctinfo(element._id)
-//             .then((proresult) => {
-//                 data.push(proresult)
-//                 data.productquant=cartresult.productquant;
-//             }).catch((err) => {
-//                 console.log(err);
-//             });
-//         });
-//         res.status(200).send(data);
-//     }).catch((err) => {
-//         console.log(err);
-//     });
-// }
-module.exports={loadcart}
+module.exports={loadcart,updatecart}

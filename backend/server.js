@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const cors = require('cors')
@@ -53,6 +54,9 @@ app.get("/verifymail/:id", verification.verifymail)
 
 app.post("/login", verification.login)
 
+app.get("/verifysellermail/:id",verification.verifysellermail)
+
+
 //homepage
 const homepage = require("./controllers/homepage");
 
@@ -62,10 +66,21 @@ app.get("/getproductscount",homepage.getproductscount);
 app.post("/addtocart", homepage.addtocart);
 
 //cartpage
-const cartpage=require("./controllers/cartpage")
+const cartpage=require("./controllers/cartpage");
+const sendMail = require('./services/emailService');
 
 app.get("/loadcart",cartpage.loadcart)
+app.put("/updatecart/:id/:op",cartpage.updatecart)
 
+//seller verification
+
+app.post("/sellersignup", verification.sellersignup);
+
+app.post("/sellerlogin", verification.sellerlogin);
+
+//seller
+
+//
 app.get("/auth", (req, res) => {
     console.log(req.session.login);
     if (req.session.login) {
@@ -73,6 +88,18 @@ app.get("/auth", (req, res) => {
     } else {
         res.status(300).send();
     }
+})
+
+//logout
+
+app.post("/logout",(req,res)=>{
+    req.session.destroy((err)=>{
+        if(err){
+            res.status(500).send();
+        }else{
+            res.status(200).send();
+        }
+    });
 })
 
 app.listen(7700, () => {

@@ -1,0 +1,56 @@
+/* SellerPage.module.css */
+
+.container {
+    text-align: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+}
+
+.mainHeading {
+    color: white;
+    background-color: #4CAF50;
+    /* Green background */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.subHeadingContainer {
+    display: flex;
+    flex-direction: row;
+    /* Row-wise layout */
+    justify-content: center;
+    /* Center the subheadings horizontally */
+    gap: 30px;
+    /* Space between subheadings */
+    flex-wrap: wrap;
+    /* Allow wrapping if there's not enough horizontal space */
+}
+
+.subHeading {
+    color: white;
+    background-color: #2196F3;
+    /* Blue background */
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.subHeading:hover {
+    background-color: #1976D2;
+    /* Darker blue on hover */
+}
+
+.productContainer {
+    background-color: black;
+    /* Black background */
+    color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+}

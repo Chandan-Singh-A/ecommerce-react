@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pagination } from 'antd';
-import style from './style.module.css'
+import style from './home.module.css'
 export function Paginationn(props) {
     function onChange(page,size){
         props.onChangeInput(page,size);

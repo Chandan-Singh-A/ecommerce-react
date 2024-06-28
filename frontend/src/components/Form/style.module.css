@@ -1,4 +1,4 @@
-#login-div {
+.logindiv {
     background-color: rgb(125, 72, 179);
     padding: 22px;
     border-radius: 5px;
@@ -8,22 +8,22 @@
     border: 3px solid black;
 }
 
-#login-div>h2 {
+.logindiv>h2 {
     margin: 10px 0 20px 0;
     font-size: 2.1em;
     color: #dadada;
 }
 
-#details {
+.details {
     margin-bottom: 15px;
 }
 
-#details label {
+.details label {
     display: block;
     font-weight: bold;
 }
 
-#details input {
+.details input {
     width: 100%;
     padding: 10px;
     border: 1px solid black;
@@ -32,11 +32,11 @@
     background-color: #d7d7d7;
 }
 
-#details label {
+.details label {
     color: #dadada;
 }
 
-#details input[type="submit"] {
+.details input[type="submit"] {
     background-color: #007bff;
     color: cornsilk;
     border: none;
@@ -68,7 +68,7 @@ a {
     text-decoration: none;
 }
 
-#forgot-password {
+.forgotpassword {
     float: right;
 
 }
