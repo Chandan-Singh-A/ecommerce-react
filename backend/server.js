@@ -6,9 +6,21 @@ const bcrypt = require('bcrypt');
 
 const multer = require("multer");
 app.use(express.static("uploads"));
-const upload = multer({ dest: 'uploads/' });
-app.use(upload.any());
+// const upload = multer({ dest: 'uploads/' });
+// app.use(upload.any());
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        console.log('multerrrrr');
+        console.log(req.files);
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now()+'-'+file.originalname);
+    }
+});
+const upload = multer({ storage: storage });
 
+app.use(express.static("uploads"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
@@ -56,6 +68,12 @@ app.post("/login", verification.login)
 
 app.get("/verifysellermail/:id",verification.verifysellermail)
 
+//seller verification
+
+app.post("/sellersignup", verification.sellersignup);
+
+app.post("/sellerlogin", verification.sellerlogin);
+
 
 //homepage
 const homepage = require("./controllers/homepage");
@@ -67,27 +85,30 @@ app.post("/addtocart", homepage.addtocart);
 
 //cartpage
 const cartpage=require("./controllers/cartpage");
-const sendMail = require('./services/emailService');
 
 app.get("/loadcart",cartpage.loadcart)
 app.put("/updatecart/:id/:op",cartpage.updatecart)
 
-//seller verification
-
-app.post("/sellersignup", verification.sellersignup);
-
-app.post("/sellerlogin", verification.sellerlogin);
 
 //seller
-
-//
-app.get("/auth", (req, res) => {
-    console.log(req.session.login);
-    if (req.session.login) {
-        res.status(200).send();
-    } else {
-        res.status(300).send();
+const seller=require("./controllers/seller")
+app.post("/addproducts", upload.single("pimage"), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
     }
+    console.log(req.file);
+    console.log('File uploaded successfully.');
+    seller.addProduct(req, res);
+});
+
+app.get("/auth", (req, res) => {
+    console.log(3,req.session);
+    // if (req.session.login) {
+    //     res.status(200).json({data:req.session});
+    // } else {
+    //     res.status(401).json({error:"Unauthorised access"});
+    // }
+    res.status(200).json({data:{name:"chandan"}})
 })
 
 //logout

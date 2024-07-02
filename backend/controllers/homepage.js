@@ -3,7 +3,7 @@ const query = require('../utilities/homequery');
 function loadproducts(req, res) {
     query.loadproductsquery(req.params.first,req.params.second)
         .then((result) => {
-            res.status(200).json(result)
+            res.status(200).json({data:result})
         }).catch((err) => {
             console.log(err);
         });
@@ -12,7 +12,7 @@ function loadproducts(req, res) {
 function getproductscount(req,res){
     query.getproductscountquery()
     .then((result) => {
-        res.status(200).send(result)
+        res.status(200).send({data:result})
     }).catch((err) => {
         console.log(err);
     });

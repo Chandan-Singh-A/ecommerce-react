@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from './style.module.css';
+import swal from 'sweetalert2'
 
 export function AddComponent() {
     const initState = {
@@ -29,9 +30,31 @@ export function AddComponent() {
 
     const addProduct = (e) => {
         e.preventDefault();
-        console.log(formState);
-        fetch("https://localhost:7700/")
-        // Here you can also handle form submission to backend or other logic
+
+        const formData = new FormData();
+        formData.append('pname', formState.pname);
+        formData.append('pprice', formState.pprice);
+        formData.append('pdesc', formState.pdesc);
+        formData.append('pquant', formState.pquant);
+        formData.append('pimage', formState.pimage);
+
+        fetch("http://localhost:7700/addproducts", {
+            method: "POST",
+            body: formData,
+            credentials: "include"
+        })
+            .then((result) => {
+                if (result.status === 200) {
+                    swal.fire({
+                        icon: 'success',
+                        title: 'Product Added',
+                        showConfirmButton: false,
+                        timer: 1500 // Automatically close after 1.5 seconds
+                    });
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
     }
 
     return (

@@ -52,28 +52,29 @@ function login(req,res){
         res.status(200).send();
     } else {
         let ob = {
-            email: req.body.email,
+            email: req.body.username,
         }
 
         let plaintextPassword = req.body.pass;
 
+        console.log(ob);
         query.checkuserquery(ob)
-            .then((result) => {
-                if (result.length !== 0) {
-                    if (bcrypt.compareSync(plaintextPassword, result[0].password)) {
+        .then((result) => {
+                if (result.length>0) {
+                    if (bcrypt.compareSync(plaintextPassword, result[0]?.password)) {
                         req.session.login = true;
                         req.session.username=ob.email;
                         console.log(req.session.login);
-                        res.status(200).send();
+                        res.status(200).json({data:ob.email});
                     } else {
-                        res.status(400).send();
+                        res.status(401).json({error:"Wrong Password"})
                     }
                 } else {
-                    res.status(400).send();
+                    res.status(404).json({error:"User Not Found"});
                 }
             }).catch((err) => {
                 console.log(err);
-                res.status(404).send();
+                res.status(500).json({error:"Internal Server Error"});
             });
     }
 }
@@ -157,7 +158,6 @@ function sellerlogin(req, res) {
                 if (result.length !== 0) {
                     console.log(1, result);
                     console.log(bcrypt.compareSync(plaintextPassword, result[0].sellerpassword));
-                    // $2b$10$vRkXNLT8BUMq3Ou9lMEfR.oC2pfPbZxPjUfkJWrgsnpywojigCKL2
                     if (await bcrypt.compareSync(plaintextPassword, result[0].sellerpassword)) {
                         req.session.login = true;
                         req.session.username = ob.email;

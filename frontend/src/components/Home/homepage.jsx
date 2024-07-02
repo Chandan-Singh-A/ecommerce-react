@@ -5,6 +5,7 @@ import style from './home.module.css'
 import swal from 'sweetalert2';
 import { UseNavigate } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useGet from '../../../hooks/useGet';
 
 export default function Loading() {
     return (
@@ -15,53 +16,61 @@ export default function Loading() {
 
 
 export function Homepagecomponent() {
-    const [arr, setArr] = useState([]);
+    // const [arr, setArr] = useState([]);
     const [page, setPage] = useState(0);
     const [quantity, setQuantity] = useState(20);
     const [count, setCount] = useState();
     const [loading, setLoading] = useState(false);
     const navigate=useNavigate();
-    async function fetchProductCount() {
-        const response = await fetch("http://localhost:7700/getproductscount", {
-            credentials: "include"
-        })
-        const json = await response.json();
-        setCount(json[0].count)
-        setLoading(false);
-    }
-    useEffect(() => {
-        try {
-            setLoading(true);
-            fetchProductCount();
-        }
-        catch (err) {
-            setLoading(false)
-            console.log(err);
-        }
-        console.log(loading);
-    }, []);
-    useEffect(() => {
-        fetch("http://localhost:7700/loadproducts/" + page + "/" + quantity, {
-            method: "GET",
-            credentials: "include",
-        })
-            .then((result) => {
-                return result.json();
-            })
-            .then((result) => {
-                console.log(result);
-                setArr(result);
-            })
-            .catch((err) => {
-                console.log("errrrrr", err);
-            });
-    }, [page, quantity]);
+    // async function fetchProductCount() {
+    //     const response = await fetch("http://localhost:7700/getproductscount", {
+    //         credentials: "include"
+    //     })
+    //     const json = await response.json();
+    //     setCount(json[0].count)
+    //     setLoading(false);
+    // }
+    // useEffect(() => {
+    //     try {
+    //         setLoading(true);
+    //         fetchProductCount();
+    //     }
+    //     catch (err) {
+    //         setLoading(false)
+    //         console.log(err);
+    //     }
+    //     console.log(loading);
+    // }, []);
+
+    const [isCountLoding, isCountError, countArr] = useGet("getproductscount")
+    const [isProductLoaing, isProductError, arr] = useGet("loadproducts/"+page+"/"+quantity,[page,quantity])
+    // useEffect(() => {
+    //     fetch("http://localhost:7700/loadproducts/" + page + "/" + quantity, {
+    //         method: "GET",
+    //         credentials: "include",
+    //     })
+    //         .then((result) => {
+    //             return result.json();
+    //         })
+    //         .then((result) => {
+    //             console.log(result);
+    //             setArr(result);
+    //         })
+    //         .catch((err) => {
+    //             console.log("errrrrr", err);
+    //         });
+    // }, [page, quantity]);
+
+    useEffect(()=>{
+        setCount(countArr[0]?.count)
+        // console.log(countArr);
+    },[countArr])
 
     function onChangeInput(page, quantity) {
         setPage(page);
         setQuantity(quantity);
     }
-    if (loading) {
+    if (isProductLoaing) {
         return <Loading />
     }
 
@@ -158,6 +167,9 @@ export function Homepagecomponent() {
                     <h5 onClick={()=>logout()}>Logout</h5>
                 </div>
                 <div className={style.content}>
+                    {
+                        console.log(arr)
+                    }
                     {arr.map(value => <Productcomponent {...productProps} data={value} key={value._id} />)}
                 </div>
                 <Paginationn onChangeInput={onChangeInput} value={count} />

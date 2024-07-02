@@ -6,12 +6,14 @@ import App from './App.jsx'
 // import './components/styles/homepage.css'
 import { RouterProvider, createBrowserRouter, } from "react-router-dom";
 import { Signupcomponent } from './components/Form/signup.jsx';
-import { Logincomponent } from './components/Form/login.jsx';
+import Logincomponent from './components/Form/login.jsx';
 import { Homepagecomponent } from './components/Home/homepage.jsx';
 import { Cartpagecomponent } from './components/cart/cartpage.jsx';
 import { Sellercomponent } from './components/seller/sellerpage.jsx';
 import { SellerSignUpComponent } from './components/Form/sellersignup.jsx';
 import { SellerLoginUpComponent } from './components/Form/sellerlogin.jsx';
+import { AuthProvider } from './stores/authStore.jsx';
+import AuthGuard from './auth/authGuard.jsx';
 
 const router = createBrowserRouter([
   {
@@ -33,15 +35,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Homepagecomponent />,
+    element: <AuthGuard><Homepagecomponent /></AuthGuard>,
   },
   {
     path: "/cart",
     element: <Cartpagecomponent />
   },
   {
-    path:"/seller",
-    element:<Sellercomponent />,
+    path: "/seller",
+    element: <Sellercomponent />,
   },
   {
     path: "seller/signup",
@@ -52,8 +54,11 @@ const router = createBrowserRouter([
     element: <SellerLoginUpComponent />
   }
 ])
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <AuthProvider>
+      <RouterProvider router={router}></RouterProvider>
+    </AuthProvider>
   </React.StrictMode>,
 )
