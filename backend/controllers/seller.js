@@ -41,6 +41,7 @@ function updateproduct(req,res){
         ...req.body
     }
     console.log(1,ob);
+    console.log(ob);
     query.updateproduct(ob)
     .then((result) => {
         res.status(200).json({data:result})
