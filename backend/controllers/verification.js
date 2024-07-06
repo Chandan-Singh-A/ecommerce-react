@@ -2,6 +2,7 @@ const query=require("../utilities/verificationquery")
 const bcrypt = require('bcrypt');
 const mail = require("../mail");
 const sendMail = require("../services/emailService");
+const makeToken = require("../utilities/tokenizer");
 require('dotenv').config()
 
 function signup(req,res){
@@ -62,6 +63,9 @@ function login(req,res){
         .then((result) => {
                 if (result.length>0) {
                     if (bcrypt.compareSync(plaintextPassword, result[0]?.password)) {
+                        // const token = makeToken({...result[0],isLogin:true})
+                        // console.log(token);
+                        // res.cookie("token",token)
                         req.session.login = true;
                         req.session.username=ob.email;
                         console.log(req.session.login);

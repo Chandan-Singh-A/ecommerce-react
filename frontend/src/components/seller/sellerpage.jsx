@@ -2,19 +2,70 @@ import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import style from './seller.module.css'
 import { AddComponent } from "./components/add";
+import { UpdateProductComponent } from "./components/update";
+import useGetDelayed from "../../../hooks/useGetDelayed";
 
 export function Sellercomponent(){
     const navigate=useNavigate();
     const [currentForm, setCurrentForm] = useState("add")
+    const [arr,setArr]=useState([]);
     const activeStyle = {
         backgroundColor:"red"
+    }
+
+    // const [isLoading, isError, products, setProducts, fetchProducts] = useGetDelayed("sellerproducts")
+
+    // useEffect(()=>{
+    //     if(currentForm!='update') return
+    //     fetchProducts()
+    // },[currentForm])
+
+    function getproducts(){
+        fetch("http://localhost:7700/sellerproducts",{
+            credentials:"include",
+        })
+        .then((result) => {
+            return result.json()
+        })
+        .then((result)=>{
+            setArr(result);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+
+    function updateproduct(data){
+        fetch("http://localhost:7700/auth",{
+            method:"POST",
+            credentials:"include",
+            headers:{"content-type":"appilcation/json"},
+            body:data,
+        }).then((result) => {
+            if (result.status === 200) {
+                Swal.fire({
+                    title: 'Updated!',
+                    text: 'Product has been updated successfully.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            }
+        }).catch((err) => {
+            console.log(err);
+            Swal.fire({
+                title: 'Error!',
+                text: 'There was a problem updating the product.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
     }
 
     useEffect(()=>{
         fetch("http://localhost:7700/auth",{
             credentials:"include",
         }).then((result) => {
-            if(result.status==300){
+            if(result.status==401){
                 navigate("/seller/login");
             }
         }).catch((err) => {
@@ -26,13 +77,19 @@ export function Sellercomponent(){
             <h1 className={style.mainHeading}>Seller Page</h1>
             <div className={style.subHeadingContainer}>
                 <h2 className={style.subHeading} style={currentForm == "add" ? activeStyle : {}} onClick={()=>setCurrentForm("add")}>Add Product</h2>
-                <h2 className={style.subHeading} style={currentForm == "update" ? activeStyle : {}} onClick={()=>setCurrentForm("update")}>Update Product</h2>
+                <h2 className={style.subHeading} style={currentForm == "update" ? activeStyle : {}} onClick={()=>{setCurrentForm("update")
+                    getproducts();}
+                }>Update Product</h2>
                 <h2 className={style.subHeading} style={currentForm == "order" ? activeStyle : {}} onClick={()=>setCurrentForm("order")}>Orders</h2>
                 <h2 className={style.subHeading}>Logout</h2>
             </div>
             <div className={style.productContainer}>
                 {currentForm=="add"?<AddComponent />:null}
-                {currentForm=="update"?<h1>update product</h1>:null}
+                {currentForm === "update" ? arr.map(value => (
+                    <UpdateProductComponent deleteProduct={(id)=>setArr(p=>p.filter(pr=>pr._id!=id))}
+                        handleupdate={updateproduct}
+                        data={value} key={value._id} />
+                )) : null}
                 {currentForm=="order"?<h1>order product</h1>:null}
             </div>
         </div>

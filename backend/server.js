@@ -3,43 +3,42 @@ const express = require('express');
 const app = express();
 const cors = require('cors')
 const bcrypt = require('bcrypt');
-
+const session = require("express-session");
 const multer = require("multer");
-app.use(express.static("uploads"));
-// const upload = multer({ dest: 'uploads/' });
-// app.use(upload.any());
+const cookieParser = require("cookie-parser")
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        console.log('multerrrrr');
-        console.log(req.files);
         cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now()+'-'+file.originalname);
+        cb(null, file.fieldname+"_"+Date.now()+".jpg");
     }
 });
+
 const upload = multer({ storage: storage });
 
 app.use(express.static("uploads"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser())
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: process.env.ORIGINS.split(" "),
     methods: ["GET", "PUT", "POST", "DELETE"],
     credentials: true,
 }));
+app.use(session({
+    secret: 'Secret Shopping',
+    saveUninitialized: false,
+    resave:false
+}));
 app.use((req, res, next) => {
     console.log(req.method, req.url);
+    // console.log(req.method, req.url, req.cookies);
     next();
 });
 
-var session = require("express-session");
-app.use(session({
-    secret: 'Secret Shopping',
-    resave: true,
-    saveUninitialized: true,
-}));
 
 const mysql = require("mysql");
 
@@ -61,17 +60,13 @@ const verification = require("./controllers/verification");
 //verification
 
 app.post("/signup", verification.signup)
-
 app.get("/verifymail/:id", verification.verifymail)
-
 app.post("/login", verification.login)
-
 app.get("/verifysellermail/:id",verification.verifysellermail)
 
 //seller verification
 
 app.post("/sellersignup", verification.sellersignup);
-
 app.post("/sellerlogin", verification.sellerlogin);
 
 
@@ -80,7 +75,6 @@ const homepage = require("./controllers/homepage");
 
 app.get("/loadproducts/:first/:second", homepage.loadproducts);
 app.get("/getproductscount",homepage.getproductscount);
-
 app.post("/addtocart", homepage.addtocart);
 
 //cartpage
@@ -96,19 +90,21 @@ app.post("/addproducts", upload.single("pimage"), (req, res) => {
     if (!req.file) {
         return res.status(400).send('No file uploaded.');
     }
-    console.log(req.file);
-    console.log('File uploaded successfully.');
     seller.addProduct(req, res);
 });
+app.get("/sellerproducts",seller.sellerproducts)
+app.delete("/deleteproduct/:id",seller.deleteproduct)
+app.post("/updateproduct",seller.updateproduct)
+
+//auth
 
 app.get("/auth", (req, res) => {
     console.log(3,req.session);
-    // if (req.session.login) {
-    //     res.status(200).json({data:req.session});
-    // } else {
-    //     res.status(401).json({error:"Unauthorised access"});
-    // }
-    res.status(200).json({data:{name:"chandan"}})
+    if (req.session.login) {
+        res.status(200).json({data:req.session});
+    } else {
+        res.status(401).json({error:"Unauthorised access"});
+    }
 })
 
 //logout

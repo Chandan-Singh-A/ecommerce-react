@@ -23,7 +23,7 @@ class AuthStore {
             error: observable,
             isStarted:observable,
             login:action,
-            logout:action
+            logout:action,
         })
     }
 
@@ -37,7 +37,6 @@ class AuthStore {
                     this.user = json.data
                     this.isLoggedIn = true
                 })
-                // this.navigate("/")
             } else if (res.status == 401) {
                 runInAction(() => {
                     this.isError = true
@@ -62,12 +61,12 @@ class AuthStore {
         }
     }
 
-    async login({ username, pass }) {
+    async login({ username, pass },url) {
         try {
             this.isLoading = true
             this.isError = false
             this.error = ""
-            const res = await fetch(serverUrl+"/login", {
+            const res = await fetch(serverUrl+url, {
                 method: "POST",
                 headers: {
                     'content-type': 'application/json',
@@ -81,7 +80,6 @@ class AuthStore {
                     this.user = json.data
                     this.isLoggedIn = true
                 })
-                // this.navigate("/")
             } else if (res.status == 404) {
                 runInAction(() => {
                     this.isError = true
