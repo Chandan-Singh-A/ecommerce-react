@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from './style.module.css';
+import styles from './add.module.css';
 import swal from 'sweetalert2'
 
 export function AddComponent() {
@@ -52,6 +52,7 @@ export function AddComponent() {
                         timer: 1500 // Automatically close after 1.5 seconds
                     });
                 }
+                setFormState(initState);
             }).catch((err) => {
                 console.log(err);
             });

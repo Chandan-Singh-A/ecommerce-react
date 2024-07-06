@@ -9,7 +9,7 @@ const con = mysql.createConnection({
 function addproduct(ob){
     return new Promise((resolve,reject)=>{
         con.query(`insert into product values(
-            '${ob.pname}',${ob.price},'${ob.pdesc}','${ob.pimg}',${ob.pquant},${ob.id},${ob.sellermail},1,0
+            '${ob.pname}',${ob.pprice},'${ob.pdesc}','${ob.pimg}',${ob.pquant},${ob.id},'${ob.sellermail}',1,0
             )`,(err,data)=>{
             if(err){
                 reject(err);
@@ -20,4 +20,42 @@ function addproduct(ob){
     })
 }
 
-module.exports={addproduct}
+function sellerproducts(req){
+    return new Promise((resolve,reject)=>{
+        con.query(`select * from product where sellermail='${req.session.username}' and isaccepted=1`,(err,data)=>{
+            if(err){
+                reject(err);
+            }else{
+                resolve(data);
+            }
+        })
+    })
+}
+
+function deleteproduct(id){
+    return new Promise((resolve,reject)=>{
+        con.query(`delete from product where _id=${id}`,(err,data)=>{
+            if(err){
+                reject(err);
+            }else{
+                resolve(data);
+            }
+        })
+    })
+}
+
+function updateproduct(ob){
+    return new Promise((resolve,reject)=>{
+        con.query(`update product set 
+            productname='${ob.productname}',productprice=${ob.productprice},productdesc='${ob.productdesc}',productquant=${ob.productquant}
+            `,(err,data)=>{
+            if(err){
+                reject(err);
+            }else{
+                resolve(data);
+            }
+        })
+    })
+}
+
+module.exports={addproduct,sellerproducts,deleteproduct,updateproduct}

@@ -11,7 +11,7 @@ function Logincomponent() {
     const store = useStore()
 
     const submitForm =async (e)=>{
-       await store.login({username:email, pass})
+       await store.login({username:email, pass},"/login")
        store.isLoggedIn?navigate("/"):alert(store.error)
     }
     // useEffect(() => {
