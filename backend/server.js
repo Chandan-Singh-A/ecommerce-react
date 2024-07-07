@@ -96,6 +96,10 @@ app.get("/sellerproducts",seller.sellerproducts)
 app.delete("/deleteproduct/:id",seller.deleteproduct)
 app.post("/updateproduct",seller.updateproduct)
 
+//admin
+const admin=require("./controllers/admin");
+
+
 //auth
 
 app.get("/auth", (req, res) => {

@@ -1,9 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-
-// import './index.css'
-// import './components/styles/homepage.css'
 import { RouterProvider, createBrowserRouter, } from "react-router-dom";
 import { Signupcomponent } from './components/Form/signup.jsx';
 import Logincomponent from './components/Form/login.jsx';
@@ -12,6 +8,7 @@ import { Cartpagecomponent } from './components/cart/cartpage.jsx';
 import { Sellercomponent } from './components/seller/sellerpage.jsx';
 import { SellerSignUpComponent } from './components/Form/sellersignup.jsx';
 import { SellerLoginUpComponent } from './components/Form/sellerlogin.jsx';
+import { Admincomponent } from './components/admin/admin.jsx'
 import { AuthProvider } from './stores/authStore.jsx';
 import AuthGuard from './auth/authGuard.jsx';
 
@@ -52,6 +49,10 @@ const router = createBrowserRouter([
   {
     path: "seller/login",
     element: <SellerLoginUpComponent />
+  },
+  {
+    path:"admin",
+    element:<Admincomponent />
   }
 ])
 
