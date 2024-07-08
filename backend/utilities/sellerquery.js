@@ -48,7 +48,7 @@ function updateproduct(ob){
     return new Promise((resolve,reject)=>{
         con.query(`update product set 
             productname='${ob.productname}',productprice=${ob.productprice},productdesc='${ob.productdesc}',productquant=${ob.productquant}
-            `,(err,data)=>{
+            where _id=${ob._id}`,(err,data)=>{
             if(err){
                 reject(err);
             }else{

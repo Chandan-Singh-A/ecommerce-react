@@ -99,6 +99,7 @@ app.post("/updateproduct",seller.updateproduct)
 //admin
 const admin=require("./controllers/admin");
 app.get("/users",admin.users)
+app.get("/sellers",admin.sellers)
 
 
 //auth

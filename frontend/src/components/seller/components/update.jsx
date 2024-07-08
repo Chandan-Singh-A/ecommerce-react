@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from './update.module.css'
 import Swal from 'sweetalert2';
 
@@ -40,7 +40,9 @@ export function UpdateProductComponent(props) {
 
     return (
         <div className={style.product}>
-            <img src={`http://localhost:7700/${product.productimg}`} alt="noimage" className={style.productImage} />
+            <div className={style.productImage}>
+                <img src={`http://localhost:7700/${product.productimg}`} alt="noimage" className={style.img}/>
+            </div>
             <div className={style.productDetails}>
                 <input
                     type="text"
@@ -72,7 +74,7 @@ export function UpdateProductComponent(props) {
             </div>
             <div className={style.productButtons}>
                 <button onClick={() => handleDelete(product._id)} className={style.deleteButton}>Delete</button>
-                <button onClick={()=>props.handleupdate(product)} className={style.updateButton}>Update</button>
+                <button onClick={() => props.handleupdate(product)} className={style.updateButton}>Update</button>
             </div>
         </div>
     );

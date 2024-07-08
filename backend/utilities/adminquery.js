@@ -17,3 +17,18 @@ function users(){
         })
     })
 }
+
+function sellers() {
+    return new Promise((resolve, reject) => {
+        con.query(`select * from seller where isverified=1 and isverifiedbyadmin=1`, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                console.log("data",data);
+                resolve(data);
+            }
+        })
+    })
+}
+
+module.exports={users,sellers};

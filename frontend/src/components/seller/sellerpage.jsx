@@ -113,7 +113,8 @@ export function Sellercomponent() {
                 {currentForm === "update" ? arr.map(value => (
                     <UpdateProductComponent deleteProduct={(id) => setArr(p => p.filter(pr => pr._id != id))}
                         handleupdate={updateproduct}
-                        data={value} key={value._id} />
+                        data={value} key={value._id}
+                    />
                 )) : null}
                 {currentForm == "order" ? <h1>order product</h1> : null}
             </div>
