@@ -44,5 +44,37 @@
     margin-top: 20px;
     border-radius: 5px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+}
+
+.userContainer {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.userName,
+.userEmail {
+    margin: 5px 0;
+}
+
+.removeButton {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f44336;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.removeButton:hover {
+    background-color: #d32f2f;
 }
