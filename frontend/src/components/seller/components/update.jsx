@@ -41,35 +41,39 @@ export function UpdateProductComponent(props) {
     return (
         <div className={style.product}>
             <div className={style.productImage}>
-                <img src={`http://localhost:7700/${product.productimg}`} alt="noimage" className={style.img}/>
+                <img src={`http://localhost:7700/${product.pimg}`} alt="noimage" className={style.img}/>
             </div>
             <div className={style.productDetails}>
+                <label className={style.productLabel}>Product Name</label>
                 <input
                     type="text"
-                    value={product.productname}
+                    value={product.pname}
                     className={style.productInput}
                     placeholder="Product Name"
-                    onChange={(e) => handleUpdate('productname', e.target.value)}
+                    onChange={(e) => handleUpdate('pname', e.target.value)}
                 />
+                <label className={style.productLabel}>Price</label>
                 <input
                     type="number"
-                    value={product.productprice}
+                    value={product.pprice}
                     className={style.productInput}
                     placeholder="Price"
-                    onChange={(e) => handleUpdate('productprice', e.target.value)}
+                    onChange={(e) => handleUpdate('pprice', e.target.value)}
                 />
+                <label className={style.productLabel}>Quantity</label>
                 <input
                     type="number"
-                    value={product.productquant}
+                    value={product.pquant}
                     className={style.productInput}
                     placeholder="Quantity"
-                    onChange={(e) => handleUpdate('productquant', e.target.value)}
+                    onChange={(e) => handleUpdate('pquant', e.target.value)}
                 />
+                <label className={style.productLabel}>Description</label>
                 <textarea
-                    value={product.productdesc}
+                    value={product.pdesc}
                     className={style.productTextarea}
                     placeholder="Description"
-                    onChange={(e) => handleUpdate('productdesc', e.target.value)}
+                    onChange={(e) => handleUpdate('pdesc', e.target.value)}
                 />
             </div>
             <div className={style.productButtons}>

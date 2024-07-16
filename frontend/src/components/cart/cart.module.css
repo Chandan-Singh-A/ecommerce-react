@@ -1,50 +1,102 @@
-.container{
+.container {
     display: flex;
     flex-direction: column;
     height: 100vh;
     width: 100%;
+    background-color: #f7f7f7;
+    font-family: Arial, sans-serif;
 }
 
-.header{
-    background-color: sandybrown;
+.header {
+    background-color: #ff8c00;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 7%;
     width: 100%;
+    font-size: 24px;
+    font-weight: bold;
 }
 
-.navdiv{
+.navdiv {
     height: 5%;
-    background-color: aqua;
+    background-color: #00bcd4;
     display: flex;
-    justify-content: right;
+    justify-content: space-around;
+    align-items: center;
     width: 100%;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
 }
 
+.navdiv p {
+    margin: 0;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.navdiv p:hover {
+    color: #ff8c00;
+}
+
+.product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff3e0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product img {
+    height: 150px;
+    width: 150px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.btnupdate {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btnupdate:last-child {
+    margin-right: 0;
+}
+
+.leftButtonStyle {
+    background-color: red;
+    color: white;
+}
+
+.rightButtonStyle {
+    background-color: blue;
+    color: white;
+}
+
+.btnupdate:hover {
+    opacity: 0.8;
+}
 .content{
-    height: 88%;
+    height: 63%;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     /* flex-direction: row; */
     /* align-items: center; */
-}
-
-.product{
-    height: 400px;
-    width: 400px;
-    background-color: yellow;
-    width: 20%;
-}
-.product img{
-    height: 150px;
-    width: 150px;
-}
-
-
-.btnupdate {
-    margin-right: 100px;
-
-}
-
-.btnupdate:last-child {
-    margin-right: 0;
 }

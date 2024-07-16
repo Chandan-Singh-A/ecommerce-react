@@ -9,6 +9,7 @@ class AuthStore {
     user = {};
     isStarted=false;
     isLoggedIn = false;
+    isLoggedInAdmin=false;
     role = 'user'
     isLoading = false;
     isError = false;
@@ -17,6 +18,7 @@ class AuthStore {
         makeObservable(this, {
             user: observable,
             isLoggedIn: observable,
+            isLoggedInAdmin: observable,
             role: observable,
             isLoading: observable,
             isError: observable,
@@ -30,7 +32,7 @@ class AuthStore {
     async start(){
         try {
             console.log("Inside start");
-            const res = await fetch(serverUrl+"/auth",{credentials:'include'})
+            const res = await fetch(serverUrl+"/auth",{credentials:"include"})
             const json = await res.json()
             if (res.status == 200) {
                 runInAction(() => {
@@ -80,6 +82,11 @@ class AuthStore {
                     this.user = json.data
                     this.isLoggedIn = true
                 })
+            } else if(res.status==201){
+                runInAction(()=>{
+                    this.user=json.data
+                    this.isLoggedInAdmin=true;
+                })
             } else if (res.status == 404) {
                 runInAction(() => {
                     this.isError = true
@@ -119,6 +126,7 @@ class AuthStore {
             if (res.status == 200) {
                 runInAction(() => {
                     this.isLoggedIn = false
+                    this.isLoggedInAdmin=false
                 })
             } else {
                 runInAction(() => {

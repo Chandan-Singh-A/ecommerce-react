@@ -23,7 +23,8 @@ export function Homepagecomponent() {
     const [loading, setLoading] = useState(false);
     const navigate=useNavigate();
     // async function fetchProductCount() {
-    //     const response = await fetch("http://localhost:7700/getproductscount", {
+        // const response = await fetch(import.meta.env.VITE_SERVER_API+'', {
+        // const response = await fetch("http://localhost:7700/getproductscount", {
     //         credentials: "include"
     //     })
     //     const json = await response.json();
@@ -98,10 +99,11 @@ export function Homepagecomponent() {
         const data = arr.filter(i=>i._id==id)
         const ob  = data[0]
         var cartob = {
-            userid: ob._id,
+            pid: ob._id,
             sellermail: ob.sellermail,
         }
-        fetch("http://localhost:7700/addtocart", {
+        console.log("cartob=",cartob);
+        fetch(import.meta.env.VITE_SERVER_API+"/addtocart", {
             method: "POST",
             credentials: "include",
             headers: { "content-type": "application/json" },
@@ -113,7 +115,7 @@ export function Homepagecomponent() {
                         icon: 'success',
                         title: 'Added To Cart',
                         showConfirmButton: false,
-                        timer: 1500 // Automatically close after 1.5 seconds
+                        timer: 1500
                     });
                 } else if (result.status == 300) {
                     swal.fire({
@@ -130,7 +132,7 @@ export function Homepagecomponent() {
     }
 
     function logout(){
-        fetch("http://localhost:7700/logout",{
+        fetch(import.meta.env.VITE_SERVER_API+"/logout",{
             method:"POST",
             credentials:"include",
         }).then((result) => {

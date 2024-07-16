@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import style from './cart.module.css'
 import { Productcomponent } from "../Home/product";
 import { useNavigate } from "react-router-dom";
-
 export function Cartpagecomponent() {
     const navigate=useNavigate();
     const [arr, setArr] = useState([]);
     useEffect(() => {
-        fetch("http://localhost:7700/loadcart", {
+        fetch(import.meta.env.VITE_SERVER_API+"/loadcart", {
             method: "GET",
-            credentials: "include"
+            credentials: "include",
+            cache: "no-store" // or "no-cache"
+
         })
             .then((result) => {
                 if(result.status==300){
@@ -48,7 +49,7 @@ export function Cartpagecomponent() {
             if (e._id === id) {
                 return {
                     ...e,
-                    productquant: op ? e.productquant + 1 : e.productquant - 1
+                    pquant: op ? e.pquant + 1 : e.pquant - 1
                 };
             }
             return e;
@@ -56,9 +57,18 @@ export function Cartpagecomponent() {
 
         setArr(updatedArr);
     }
+
+    function deletecart(id){
+        let temp=arr.filter((e)=>{
+            return e._id!==id;
+        })
+        console.log("arr=",arr);
+        console.log("Temp=",temp);
+        setArr(temp);
+    }
     
     function updateCartquant(id,op) {
-        fetch(`http://localhost:7700/updatecart/${id}/${op}`,{
+        fetch(import.meta.env.VITE_SERVER_API+`/updatecart/${id}/${op}`,{
             method:"PUT",
             credentials:"include",
         }).then((result) => {
@@ -66,6 +76,8 @@ export function Cartpagecomponent() {
                 updateCartquantUI(id,op);
             }else if(result.status==300){
                 alert("Limit exceed")
+            }else if(result.status==350){
+                deletecart(id);
             }
         }).catch((err) => {
             console.log(err);
@@ -80,7 +92,7 @@ export function Cartpagecomponent() {
             </div>
             <nav className={style.navdiv} >
                 <p>Buy</p>
-                <p>Home</p>
+                <p onClick={()=>{navigate("/")}}>Home</p>
             </nav>
             <div className={style.content}>
                 {arr.map(value => <Productcomponent  {...cartItemProps} data={{ ...value, productquant: value.cart_productquant }} key={value._id} />)}

@@ -8,9 +8,10 @@ const con = mysql.createConnection({
 
 function joinquery(req){
     return new Promise((resolve,reject)=>{
-        con.query(`SELECT p.productname, p.productprice, p.productimg,p.productquant AS product_productquant, c.productquant AS cart_productquant, c.userid, c._id 
-            FROM product p JOIN cart c ON p._id = c.userid
+        con.query(`SELECT p.pname, p.pprice, p.pimg,p.pquant AS product_productquant, c.productquant AS pquant, c.pid, c._id 
+            FROM product p JOIN cart c ON p._id = c.pid
             WHERE c.username ='${req.session.username}'`,(err,data)=>{
+                console.log(1,data);
                 if(err){
                     reject(err);
                 }else{
@@ -35,9 +36,9 @@ function loadcartquery(req){
 
 function getcartinfo(id){
     return new Promise((resolve,reject)=>{
-        con.query(`select p.productquant as pquant,c.productquant as cquant from cart c
+        con.query(`select p.pquant as pquant,c.productquant as cquant from cart c
                     INNER JOIN product p
-                    ON p._id=c.userid
+                    ON p._id=c.pid
                     WHERE c._id=${id}`,(err,data)=>{
             if(err){
                 reject(err);

@@ -32,7 +32,7 @@ function getproductscountquery() {
 
 function findcartquery(id) {
     return new Promise((resolve, reject) => {
-        con.query(`select *from cart where userid=${id};`, (err, data) => {
+        con.query(`select *from cart where pid=${id};`, (err, data) => {
             if (err) {
                 reject(err);
             } else {
@@ -45,14 +45,13 @@ function findcartquery(id) {
 function createcartquery(object) {
     return new Promise((resolve, reject) => {
         con.query(`insert into cart
-        values(${object._id},'${object.username}',${object.userid},${object.productquant},'${object.sellermail}',false);`, (err, data) => {
+        values(${object._id},'${object.username}',${object.pid},${object.productquant},'${object.sellermail}',false);`, (err, data) => {
             if (err) {
                 reject(err);
             } else {
                 resolve(data);
             }
         })
-        // name,userid,quanti,_id;
     })
 }
 

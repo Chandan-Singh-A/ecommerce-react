@@ -6,6 +6,7 @@ function addProduct(req,res){
         pimg:req.file.filename,
         id:Math.random(),
         sellermail:req.session.username
+        // sellermail:"singh.chandan1309@gmail.com"
     }
     console.log(ob);
     query.addproduct(ob)
@@ -41,7 +42,6 @@ function updateproduct(req,res){
         ...req.body
     }
     console.log(1,ob);
-    console.log(ob);
     query.updateproduct(ob)
     .then((result) => {
         res.status(200).json({data:result})

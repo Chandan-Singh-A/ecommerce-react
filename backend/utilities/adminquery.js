@@ -24,11 +24,23 @@ function sellers() {
             if (err) {
                 reject(err);
             } else {
-                console.log("data",data);
                 resolve(data);
             }
         })
     })
 }
 
-module.exports={users,sellers};
+function removeuser(id, table) {
+    return new Promise((resolve, reject) => {
+        const query = `DELETE FROM ${table} WHERE _id = ${id}`;
+        con.query(query, (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+}
+
+module.exports={users,sellers,removeuser};

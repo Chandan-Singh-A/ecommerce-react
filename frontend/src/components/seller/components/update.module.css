@@ -80,3 +80,10 @@
 .updateButton:hover {
     background-color: #388E3C;
 }
+
+.productLabel {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: black;
+}

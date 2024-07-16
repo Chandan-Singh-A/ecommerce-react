@@ -5,7 +5,7 @@ const cors = require('cors')
 const bcrypt = require('bcrypt');
 const session = require("express-session");
 const multer = require("multer");
-const cookieParser = require("cookie-parser")
+// const cookieParser = require("cookie-parser")
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -22,16 +22,21 @@ app.use(express.static("uploads"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
-app.use(cookieParser())
+// app.use(cookieParser())
 app.use(cors({
-    origin: process.env.ORIGINS.split(" "),
+    origin: 'http://localhost:5173',
     methods: ["GET", "PUT", "POST", "DELETE"],
     credentials: true,
 }));
 app.use(session({
     secret: 'Secret Shopping',
     saveUninitialized: false,
-    resave:false
+    resave:false,
+    cookie: {
+        path: '/',
+        domain: 'localhost',
+        httpOnly: true,
+    }
 }));
 app.use((req, res, next) => {
     console.log(req.method, req.url);
@@ -55,6 +60,8 @@ con.connect(function (err) {
         console.log("Mysql Database Connected");
     }
 });
+
+
 
 const verification = require("./controllers/verification");
 //verification
@@ -100,6 +107,7 @@ app.post("/updateproduct",seller.updateproduct)
 const admin=require("./controllers/admin");
 app.get("/users",admin.users)
 app.get("/sellers",admin.sellers)
+app.delete("/removeuser",admin.removeuser)
 
 
 //auth

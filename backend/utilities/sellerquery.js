@@ -22,7 +22,8 @@ function addproduct(ob){
 
 function sellerproducts(req){
     return new Promise((resolve,reject)=>{
-        con.query(`select * from product where sellermail='${req.session.username}' and isaccepted=1`,(err,data)=>{
+        // con.query(`select * from product where sellermail='${req.session.username}' and isaccepted=1`,(err,data)=>{
+        con.query(`select * from product where sellermail='singh.chandan1309@gmail.com' and isaccepted=1`,(err,data)=>{
             if(err){
                 reject(err);
             }else{
@@ -47,7 +48,7 @@ function deleteproduct(id){
 function updateproduct(ob){
     return new Promise((resolve,reject)=>{
         con.query(`update product set 
-            productname='${ob.productname}',productprice=${ob.productprice},productdesc='${ob.productdesc}',productquant=${ob.productquant}
+            pname='${ob.pname}',pprice=${ob.pprice},pdesc='${ob.pdesc}',pquant=${ob.pquant}
             where _id=${ob._id}`,(err,data)=>{
             if(err){
                 reject(err);

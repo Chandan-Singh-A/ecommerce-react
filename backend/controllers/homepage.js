@@ -25,7 +25,7 @@ function addtocart(req,res){
         cartob.username = req.session.username;
         cartob.productquant = 1;
         cartob._id = random;
-        query.findcartquery(cartob.userid)
+        query.findcartquery(cartob.pid)
             .then((result) => {
                 if (result.length == 0) {
                     query.createcartquery(cartob)

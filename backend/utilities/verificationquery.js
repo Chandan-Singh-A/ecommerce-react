@@ -32,7 +32,7 @@ function saveuserdbquery(ob) {
 
 function checkuserquery(ob) {
     return new Promise((resolve, reject) => {
-        con.query(`select * from users where email='${ob.email}' and isverified=true`, (err, data) => {
+        con.query(`select * from users where email='${ob.email}' and isverified is TRUE`, (err, data) => {
             if (err) {
                 reject(err);
             } else {
@@ -55,7 +55,6 @@ function verifymail(id) {
 }
 
 function checkuniquesellerquery(mail) {
-    console.log("mail=", mail);
     return new Promise((resolve, reject) => {
         con.query(`select * from seller where sellermail='${mail}'`, (err, data) => {
             if (err) {
@@ -75,7 +74,7 @@ function savesellerdbquery(ob) {
             } else {
                 resolve(data);
             }
-        })
+        })   
     })
 }
 
@@ -92,7 +91,6 @@ function checksellerquery(ob) {
 }
 
 function verifysellermail(id) {
-    console.log(id);
     return new Promise((resolve, reject) => {
         con.query(`update seller set isverified=1 where _id=${id}`, (err, data) => {
             if (err) {

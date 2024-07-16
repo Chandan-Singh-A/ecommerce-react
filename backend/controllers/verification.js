@@ -1,6 +1,5 @@
 const query=require("../utilities/verificationquery")
 const bcrypt = require('bcrypt');
-const mail = require("../mail");
 const sendMail = require("../services/emailService");
 const makeToken = require("../utilities/tokenizer");
 require('dotenv').config()
@@ -19,7 +18,6 @@ function signup(req,res){
     try {
         let salt = bcrypt.genSaltSync(saltRounds);
         let hashedPassword = bcrypt.hashSync(plaintextPassword, salt);
-        console.log("Hashed password:", hashedPassword);
         ob.pass = hashedPassword;
     } catch (err) {
         console.error(err);
@@ -28,9 +26,14 @@ function signup(req,res){
     query.checkuniqueuserquery(ob)
         .then((result) => {
             if (result.length === 0) {
-                let body = `<p><a href='http://localhost:7700/verifymail/${ob.id}'>click here</a> to verify</p>`;
-                mail(req.body.email, req.body.name, body, 'E-Commerce Site Verification Mail');
-                console.log("ob before db", ob);
+                let body = `
+                    <div>
+                        <h1>Mail Verification</h1>
+                        <p>This mail is for verify your request as a Seller in our site.Click Below to Verify Yourself</p>
+                        <p><a href='http://localhost:7700/verifymail/${ob.id}'>click here to verify</a> to verify</p>
+                    </div>
+                `;
+                sendMail(ob.email,'Ecommerce Verification',body)
                 query.saveuserdbquery(ob)
                     .then((result) => {
                         res.status(200).send();
@@ -48,7 +51,6 @@ function signup(req,res){
 }
 
 function login(req,res){
-    console.log(req.session);
     if (req.session.login) {
         res.status(200).send();
     } else {
@@ -56,19 +58,20 @@ function login(req,res){
             email: req.body.username,
         }
 
+        if(ob.email=='admin@gmail.com' && req.body.pass=='12345678'){
+            req.session.login=true;
+            req.session.role="admin";
+            res.status(201).send({data:ob.email})
+            return;
+        }
         let plaintextPassword = req.body.pass;
-
-        console.log(ob);
         query.checkuserquery(ob)
         .then((result) => {
-                if (result.length>0) {
-                    if (bcrypt.compareSync(plaintextPassword, result[0]?.password)) {
-                        // const token = makeToken({...result[0],isLogin:true})
-                        // console.log(token);
-                        // res.cookie("token",token)
+                if (result.length>0){
+                    if (bcrypt.compareSync(plaintextPassword, result[0]?.pass)) {
                         req.session.login = true;
+                        req.session.role="user";
                         req.session.username=ob.email;
-                        console.log(req.session.login);
                         res.status(200).json({data:ob.email});
                     } else {
                         res.status(401).json({error:"Wrong Password"})
@@ -151,21 +154,15 @@ function sellerlogin(req, res) {
         res.status(200).send();
     } else {
         let ob = { ...req.body };
-
-        console.log(ob);
-
         let plaintextPassword = req.body.pass;
 
         query.checksellerquery(ob)
             .then(async(result) => {
-                console.log(2, result);
                 if (result.length !== 0) {
-                    console.log(1, result);
-                    console.log(bcrypt.compareSync(plaintextPassword, result[0].sellerpassword));
-                    if (await bcrypt.compareSync(plaintextPassword, result[0].sellerpassword)) {
+                    if (await bcrypt.compareSync(plaintextPassword, result[0].pass)) {
                         req.session.login = true;
+                        req.session.role="seller";
                         req.session.username = ob.email;
-                        console.log(req.session.login);
                         res.status(200).send();
                     } else {
                         res.status(401).send({ message: 'Invalid password' }); // Changed to 401 for unauthorized access
@@ -181,9 +178,6 @@ function sellerlogin(req, res) {
     }
 }
 
-module.exports = sellerlogin;
-
-
 function verifysellermail(req,res){
     query.verifysellermail(req.params.id)
     .then((result) => {
@@ -192,4 +186,5 @@ function verifysellermail(req,res){
         console.log(err);
     });
 }
+
 module.exports={signup,login,verifymail,sellerlogin,sellersignup,verifysellermail}

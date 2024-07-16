@@ -1,11 +1,13 @@
 const query=require("../utilities/cartquery")
 
 function loadcart(req,res){
+    console.log("first",req.session)
     if(!req.session.login){
         res.status(300).send();
     }else{
         query.joinquery(req)
         .then((result) => {
+            console.log(2,result)
             res.status(200).send(result);
         }).catch((err) => {
             console.log(err);
