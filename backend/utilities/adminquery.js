@@ -43,4 +43,16 @@ function removeuser(id, table) {
     });
 }
 
-module.exports={users,sellers,removeuser};
+function productreq(){
+    return new Promise((resolve,reject)=>{
+        con.query(`select * from product where isaccepted=0 and isrejected=0`,(err,data)=>{
+            if(err){
+                reject(err);
+            }else{
+                resolve(data);
+            }
+        })
+    })
+}
+
+module.exports={users,sellers,removeuser,productreq};

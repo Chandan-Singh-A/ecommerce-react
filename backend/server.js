@@ -104,11 +104,11 @@ app.delete("/deleteproduct/:id",seller.deleteproduct)
 app.post("/updateproduct",seller.updateproduct)
 
 //admin
-const admin=require("./controllers/admin");
+const admin=require("./controllers/admin")
 app.get("/users",admin.users)
 app.get("/sellers",admin.sellers)
 app.delete("/removeuser",admin.removeuser)
-
+app.get("/productreq",admin.productreq)
 
 //auth
 
