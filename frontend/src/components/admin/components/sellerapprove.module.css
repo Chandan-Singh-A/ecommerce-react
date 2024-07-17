@@ -1,0 +1,65 @@
+.sellerApproval {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+  }
+  
+  .sellerInfo {
+    margin-bottom: 10px;
+  }
+  
+  .sellerInfo h3 {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: #333;
+  }
+  
+  .sellerInfo p {
+    margin: 5px 0;
+    color: #666;
+  }
+  
+  .actionButtons {
+    margin-top: 10px;
+  }
+  
+  .acceptButton,
+  .rejectButton {
+    margin-right: 10px;
+    padding: 8px 15px;
+    font-size: 0.9em;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+  }
+  
+  .acceptButton {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .rejectButton {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  .acceptButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .rejectButton:hover {
+    background-color: #c82333;
+  }
+  
+  .acceptButton:active,
+  .rejectButton:active {
+    transform: translateY(1px);
+  }
+  
+  .acceptButton:focus,
+  .rejectButton:focus {
+    outline: none;
+  }

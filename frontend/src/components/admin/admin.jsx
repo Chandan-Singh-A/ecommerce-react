@@ -1,8 +1,10 @@
 import React from 'react';
 import styles from './admin.module.css';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Usercomponent } from './components/user';
 import { ProductComponent } from './components/product';
+import { Sellerapprove } from './components/sellerapprove';
 import Swal from 'sweetalert2';
 
 export function Admincomponent() {
@@ -12,6 +14,7 @@ export function Admincomponent() {
     const activeStyle = {
         backgroundColor: "red",
     }
+    const navigate = useNavigate();
 
     function users() {
         fetch(import.meta.env.VITE_SERVER_API + "/users", {
@@ -91,7 +94,7 @@ export function Admincomponent() {
         });
     }
 
-    function productReqUpdation(id, value){
+    function productReqUpdation(id, value) {
         fetch(import.meta.env.VITE_SERVER_API + "/productrequpdation", {
             method: "PUT",
             credentials: "include",
@@ -119,6 +122,7 @@ export function Admincomponent() {
                         timer: 2000
                     });
                 }
+                setArr(arr.filter((e) => { return e._id !== id }));
             } else {
                 throw new Error('Failed to update product request');
             }
@@ -129,6 +133,67 @@ export function Admincomponent() {
                 text: 'There was an error updating the product request. Please try again.',
                 showConfirmButton: true
             });
+        });
+    }
+
+    function getsellers() {
+        fetch(import.meta.env.VITE_SERVER_API + "/getsellers", {
+            method: "GET",
+            credentials: "include",
+            cache: "no-store"
+        }).then((result) => {
+            return result.json();
+        }).then((result) => {
+            setArr(result.data);
+        }).catch((err) => {
+            console.log(err)
+        });
+    }
+
+    function updatesellerreq(id, value) {
+        fetch(import.meta.env.VITE_SERVER_API + "/updatesellerreq", {
+            method: "PUT",
+            credentials: "include",
+            cache: "no-store",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ id: id, value: value })
+        }).then((result) => {
+            if (result.status === 200) {
+                if (value === 1) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Seller Request Accepted',
+                        text: 'Seller request has been accepted successfully.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                } else if (value === 0) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Seller Request Rejected',
+                        text: 'PSeller request has been rejected successfully.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+                setArr(arr.filter((e) => { return e._id !== id }));
+            }
+        }).catch((err) => {
+            console.log(err)
+        });
+    }
+
+    function logout() {
+        fetch(import.meta.env.VITE_SERVER_API + "/logout", {
+            method: "POST",
+            credentials: "include",
+            cache: "no-store",
+        }).then((result) => {
+            if (result.status == 200) {
+                navigate("/login");
+            }
+        }).catch((err) => {
+            console.log(err)
         });
     }
 
@@ -144,12 +209,15 @@ export function Admincomponent() {
                     setCurrentForm("seller")
                     sellers();
                 }}>Sellers</h2>
-                <h2 className={styles.subHeading}>Sellers Requests</h2>
+                <h2 className={styles.subHeading} style={currentForm == "sellerreq" ? activeStyle : {}} onClick={() => {
+                    setCurrentForm("sellerreq");
+                    getsellers()
+                }}>Sellers Requests</h2>
                 <h2 className={styles.subHeading} style={currentForm == "productreq" ? activeStyle : {}} onClick={() => {
                     setCurrentForm("productreq")
                     productreq();
                 }}>Product Requests</h2>
-                <h2 className={styles.subHeading}>Logout</h2>
+                <h2 className={styles.subHeading} style={currentForm == "logout" ? activeStyle : {}} onClick={logout}>Logout</h2>
             </div> <div className={styles.productContainer}>
                 {currentForm == "none" ? <div>
                     <h1>Welcome Back Admin</h1>
@@ -162,6 +230,7 @@ export function Admincomponent() {
                 {currentForm == "users" ? arr.map(value => (<Usercomponent data={value} key={value._id} removeuser={removeuser} ob={{ name: "name", email: "email" }} />)) : null}
                 {currentForm == "seller" ? arr.map(value => (<Usercomponent data={value} key={value._id} removeuser={removeuser} ob={{ name: "sellername", email: "sellermail" }} />)) : null}
                 <div className={styles.productreqcontainer}>
+                    {currentForm == "sellerreq" ? arr.map(value => (<Sellerapprove data={value} key={value._id} updatefun={updatesellerreq} />)) : null}
                     {currentForm == "productreq" ? arr.map(value => (<ProductComponent data={value} key={value._id} productReqUpdation={productReqUpdation} />)) : null}
                 </div>
             </div>

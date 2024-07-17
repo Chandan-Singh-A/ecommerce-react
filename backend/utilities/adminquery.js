@@ -75,4 +75,39 @@ function productrequpdation(id, value) {
     });
 }
 
-module.exports={users,sellers,removeuser,productreq,productrequpdation};
+function getsellers(){
+    return new Promise((resolve,reject)=>{
+        con.query(`select * from seller where isverified=1 and isverifiedbyadmin=0`, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        })
+    })
+}
+
+function updatesellerreq(id,value){
+    return new Promise((resolve,reject)=>{
+        if(value){
+            con.query(`update seller set isverifiedbyadmin=1 where _id=${id}`,(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data);
+                }
+            })
+        }else{
+            con.query(`delete from seller where _id=${id}`,(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data);
+                }
+            })
+        }
+    })
+
+}
+
+module.exports={users,sellers,removeuser,productreq,productrequpdation,getsellers,updatesellerreq};

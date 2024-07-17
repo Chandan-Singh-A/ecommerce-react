@@ -50,4 +50,22 @@ function productrequpdation(req,res){
     });
 }
 
-module.exports={users,sellers,removeuser,productreq,productrequpdation}
+function getsellers(req,res){
+    query.getsellers()
+    .then((result) => {
+        res.status(200).json({data:result});
+    }).catch((err) => {
+        res.status(500).json({msg:err});
+    });
+}
+
+function updatesellerreq(req,res){
+    query.updatesellerreq(req.body.id,req.body.value)
+    .then((result) => {
+        res.status(200).json({msg:"Updation Done Sucessfully"});
+    }).catch((err) => {
+        res.status(500).json({msg:err});
+    });
+}
+
+module.exports={users,sellers,removeuser,productreq,productrequpdation,getsellers,updatesellerreq}

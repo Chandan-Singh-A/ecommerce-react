@@ -65,14 +65,14 @@ const verification = require("./controllers/verification");
 //verification
 
 app.post("/signup", verification.signup)
-app.get("/verifymail/:id", verification.verifymail)
 app.post("/login", verification.login)
-app.get("/verifysellermail/:id",verification.verifysellermail)
+app.get("/verifymail/:id", verification.verifymail)
 
 //seller verification
 
 app.post("/sellersignup", verification.sellersignup);
 app.post("/sellerlogin", verification.sellerlogin);
+app.get("/verifysellermail/:id",verification.verifysellermail)
 
 
 //homepage
@@ -108,6 +108,8 @@ app.get("/sellers",admin.sellers)
 app.delete("/removeuser",admin.removeuser)
 app.get("/productreq",admin.productreq)
 app.put("/productrequpdation",admin.productrequpdation)
+app.get("/getsellers",admin.getsellers)
+app.put("/updatesellerreq",admin.updatesellerreq)
 
 //auth
 

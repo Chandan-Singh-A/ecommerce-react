@@ -3,7 +3,6 @@ import { Productcomponent } from './product';
 import { Paginationn } from './pagination';
 import style from './home.module.css'
 import swal from 'sweetalert2';
-import { UseNavigate } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useGet from '../../../hooks/useGet';
 
