@@ -91,6 +91,47 @@ export function Admincomponent() {
         });
     }
 
+    function productReqUpdation(id, value){
+        fetch(import.meta.env.VITE_SERVER_API + "/productrequpdation", {
+            method: "PUT",
+            credentials: "include",
+            cache: "no-store",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ id: id, value: value })
+        }).then((result) => {
+            if (result.status === 200) {
+                if (value === 1) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Product Request Accepted',
+                        text: 'Product request has been accepted successfully.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                } else if (value === 0) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Product Request Rejected',
+                        text: 'Product request has been rejected successfully.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                throw new Error('Failed to update product request');
+            }
+        }).catch((err) => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Update Failed',
+                text: 'There was an error updating the product request. Please try again.',
+                showConfirmButton: true
+            });
+        });
+    }
+
     return (
         <div className={styles.container}>
             <h1 className={styles.mainHeading}>Admin Page</h1>
@@ -121,7 +162,7 @@ export function Admincomponent() {
                 {currentForm == "users" ? arr.map(value => (<Usercomponent data={value} key={value._id} removeuser={removeuser} ob={{ name: "name", email: "email" }} />)) : null}
                 {currentForm == "seller" ? arr.map(value => (<Usercomponent data={value} key={value._id} removeuser={removeuser} ob={{ name: "sellername", email: "sellermail" }} />)) : null}
                 <div className={styles.productreqcontainer}>
-                    {currentForm == "productreq" ? arr.map(value => (<ProductComponent data={value} key={value._id} />)) : null}
+                    {currentForm == "productreq" ? arr.map(value => (<ProductComponent data={value} key={value._id} productReqUpdation={productReqUpdation} />)) : null}
                 </div>
             </div>
         </div>

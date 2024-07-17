@@ -55,4 +55,24 @@ function productreq(){
     })
 }
 
-module.exports={users,sellers,removeuser,productreq};
+function productrequpdation(id, value) {
+    console.log(id,value)
+    console.log(typeof(id),typeof(value))
+    return new Promise((resolve, reject) => {
+        const isAccepted = value;
+        const isRejected = value === 1 ? 0 : 1;
+        con.query(
+            `UPDATE product SET isaccepted = ?, isrejected = ? WHERE _id = ?`,
+            [isAccepted, isRejected, id],
+            (err, data) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            }
+        );
+    });
+}
+
+module.exports={users,sellers,removeuser,productreq,productrequpdation};

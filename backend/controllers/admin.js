@@ -41,4 +41,13 @@ function productreq(req,res){
     });
 }
 
-module.exports={users,sellers,removeuser,productreq}
+function productrequpdation(req,res){
+    query.productrequpdation(req.body.id,req.body.value)
+    .then((result) => {
+        res.status(200).json({msg:"Updation Done Sucessfully"})
+    }).catch((err) => {
+        res.status(500).json({msg:"Internal Server Error"})
+    });
+}
+
+module.exports={users,sellers,removeuser,productreq,productrequpdation}

@@ -83,7 +83,9 @@
 .productreqcontainer {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 10px;
     align-items: center;
     width: 100%;
+    overflow: auto;
+    padding: 30px;
 }

@@ -5,7 +5,6 @@ const cors = require('cors')
 const bcrypt = require('bcrypt');
 const session = require("express-session");
 const multer = require("multer");
-// const cookieParser = require("cookie-parser")
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -40,7 +39,6 @@ app.use(session({
 }));
 app.use((req, res, next) => {
     console.log(req.method, req.url);
-    // console.log(req.method, req.url, req.cookies);
     next();
 });
 
@@ -109,6 +107,7 @@ app.get("/users",admin.users)
 app.get("/sellers",admin.sellers)
 app.delete("/removeuser",admin.removeuser)
 app.get("/productreq",admin.productreq)
+app.put("/productrequpdation",admin.productrequpdation)
 
 //auth
 
