@@ -100,3 +100,21 @@
     /* flex-direction: row; */
     /* align-items: center; */
 }
+
+.buydiv{
+    display: flex;
+    flex-direction: column;
+}
+
+.buydiv1{
+    align-items: center;
+    min-width: 100%;
+}
+
+.buydiv2{
+    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 75px;
+    margin-left: 40px;
+}

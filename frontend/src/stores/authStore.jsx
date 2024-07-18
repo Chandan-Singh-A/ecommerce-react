@@ -9,8 +9,7 @@ class AuthStore {
     user = {};
     isStarted=false;
     isLoggedIn = false;
-    isLoggedInAdmin=false;
-    role = 'user'
+    role = ''
     isLoading = false;
     isError = false;
     error = ""
@@ -18,7 +17,6 @@ class AuthStore {
         makeObservable(this, {
             user: observable,
             isLoggedIn: observable,
-            isLoggedInAdmin: observable,
             role: observable,
             isLoading: observable,
             isError: observable,
@@ -28,7 +26,6 @@ class AuthStore {
             logout:action,
         })
     }
-
     async start(){
         try {
             console.log("Inside start");
@@ -62,7 +59,6 @@ class AuthStore {
             })
         }
     }
-
     async login({ username, pass },url) {
         try {
             this.isLoading = true
@@ -77,15 +73,14 @@ class AuthStore {
                 body: JSON.stringify({ username, pass })
             })
             const json = await res.json()
+            console.log(json)
             if (res.status == 200) {
+                console.log("role",json.data.role)
+                console.log("json",json)
                 runInAction(() => {
-                    this.user = json.data
-                    this.isLoggedIn = true
-                })
-            } else if(res.status==201){
-                runInAction(()=>{
-                    this.user=json.data
-                    this.isLoggedInAdmin=true;
+                    this.user = json.data.username;
+                    this.isLoggedIn = true;
+                    this.role=json.data.role;
                 })
             } else if (res.status == 404) {
                 runInAction(() => {
@@ -121,12 +116,11 @@ class AuthStore {
             this.isLoading = true
             this.isError = false
             this.error = ""
-            const res = fetch(serverUrl + "/logout", { credentials: 'include' })
+            const res = await fetch(serverUrl + "/logout", { credentials: 'include' })
             const json = await res.json()
             if (res.status == 200) {
                 runInAction(() => {
                     this.isLoggedIn = false
-                    this.isLoggedInAdmin=false
                 })
             } else {
                 runInAction(() => {

@@ -18,7 +18,7 @@ export function Productcomponent(props) {
     const { onRightButtonClick = () => { }, onLeftButtonClick = () => { }, leftButtonStyle = {}, rightButtonStyle = {}, rightButtonText = "", leftButtonText = "" } = props
 
     const data = props.data
-    console.log("first",data)
+    const flag=props.flag
     return (
         <div className={style.product}>
             <div className={style.imgBox}>
@@ -29,10 +29,10 @@ export function Productcomponent(props) {
                 <p className={style.price}>Product Price:{data.pprice}</p>
                 <p className={style.quantity}>Product Quantitiy:{data.pquant}</p>
             </div>
-            <div className={style.action}>
-                <button className={style.button} style={leftButtonStyle} onClick={() => onLeftButtonClick(data._id)}>{leftButtonText}</button>
-                <button className={style.button} style={rightButtonStyle} onClick={() => onRightButtonClick(data._id)}>{rightButtonText}</button>
-            </div>
+            {!flag?<div className={style.action}>
+                <button className={style.button} disabled={flag} style={leftButtonStyle} onClick={() => onLeftButtonClick(data._id)}>{leftButtonText}</button>
+                <button className={style.button} disabled={flag} style={rightButtonStyle} onClick={() => onRightButtonClick(data._id)}>{rightButtonText}</button>
+            </div>:null}
         </div>
     )
 }

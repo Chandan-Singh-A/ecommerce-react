@@ -1,7 +1,6 @@
 const query=require("../utilities/verificationquery")
 const bcrypt = require('bcrypt');
 const sendMail = require("../services/emailService");
-const makeToken = require("../utilities/tokenizer");
 require('dotenv').config()
 
 function signup(req,res){
@@ -51,17 +50,19 @@ function signup(req,res){
 }
 
 function login(req,res){
-    if (req.session.login) {
-        res.status(200).send();
-    } else {
         let ob = {
             email: req.body.username,
         }
 
         if(ob.email=='admin@gmail.com' && req.body.pass=='12345678'){
             req.session.login=true;
-            req.session.role="admin";
-            res.status(201).send({data:ob.email})
+            req.session.username='admin@gmail.com'
+            req.session.role="/admin";
+            let ob={
+                username:req.session.username,
+                role:req.session.role
+            }
+            res.status(200).send({data:ob})
             return;
         }
         let plaintextPassword = req.body.pass;
@@ -70,9 +71,9 @@ function login(req,res){
                 if (result.length>0){
                     if (bcrypt.compareSync(plaintextPassword, result[0]?.pass)) {
                         req.session.login = true;
-                        req.session.role="user";
+                        req.session.role="/";
                         req.session.username=ob.email;
-                        res.status(200).json({data:ob.email});
+                        res.status(200).json({data:req.session});
                     } else {
                         res.status(401).json({error:"Wrong Password"})
                     }
@@ -83,7 +84,6 @@ function login(req,res){
                 console.log(err);
                 res.status(500).json({error:"Internal Server Error"});
             });
-    }
 }
 
 function verifymail(req,res){
@@ -148,11 +148,6 @@ function sellersignup(req,res){
 }
 
 function sellerlogin(req, res) {
-    console.log(req.session);
-
-    if (req.session.login) {
-        res.status(200).send();
-    } else {
         let ob = { ...req.body };
         let plaintextPassword = req.body.pass;
 
@@ -161,9 +156,9 @@ function sellerlogin(req, res) {
                 if (result.length !== 0) {
                     if (await bcrypt.compareSync(plaintextPassword, result[0].pass)) {
                         req.session.login = true;
-                        req.session.role="seller";
+                        req.session.role="/seller";
                         req.session.username = ob.email;
-                        res.status(200).send();
+                        res.status(200).json({data:req.session});
                     } else {
                         res.status(401).send({ message: 'Invalid password' }); // Changed to 401 for unauthorized access
                     }
@@ -175,7 +170,6 @@ function sellerlogin(req, res) {
                 console.log(err);
                 res.status(500).send({ message: 'Internal server error' }); // Changed to 500 for server errors
             });
-    }
 }
 
 function verifysellermail(req,res){

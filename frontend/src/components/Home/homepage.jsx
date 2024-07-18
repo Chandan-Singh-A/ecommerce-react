@@ -168,9 +168,6 @@ export function Homepagecomponent() {
                     <h5 onClick={()=>logout()}>Logout</h5>
                 </div>
                 <div className={style.content}>
-                    {
-                        console.log(arr)
-                    }
                     {arr.map(value => <Productcomponent {...productProps} data={value} key={value._id} />)}
                 </div>
                 <Paginationn onChangeInput={onChangeInput} value={count} />

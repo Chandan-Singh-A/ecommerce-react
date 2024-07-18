@@ -12,54 +12,8 @@ function Logincomponent() {
 
     const submitForm = async (e) => {
         await store.login({ username: email, pass }, "/login")
-        //    store.isLoggedIn?navigate("/"):alert(store.error)
-        if(store.isLoggedIn){
-            navigate("/");
-        }else if(store.isLoggedInAdmin){
-            navigate("/admin");
-        }else{
-            alert(store.error);
-        }
+           store.isLoggedIn?navigate(store.role):alert(store.error)
     }
-    // useEffect(() => {
-    //     console.log("object");
-    //     fetch("http://localhost:7700/auth", {
-    //         method: "GET",
-    //         credentials: "include",
-    //     })
-    //         .then((result) => {
-    //             if (result.status == 200) {
-    //                 navigate("/");
-    //             }
-    //         }).catch((err) => {
-    //             console.log(err);
-    //         });
-    // }, []);
-
-    // const login = () => {
-    //     if (email == "" || pass == "") {
-    //         alert("Enter Details")
-    //         return;
-    //     }
-
-    //     console.log(email, pass);
-    //     fetch("http://localhost:7700/login", {
-    //         method: "POST",
-    //         headers: { "content-type": "application/json" },
-    //         credentials: "include",
-    //         body: JSON.stringify({ email, pass })
-    //     })
-    //         .then((result) => {
-    //             if (result.status == 200) {
-    //                 navigate("/");
-    //             } else {
-    //                 alert("Given Credentials are not Valid");
-    //             }
-    //         }).catch((err) => {
-    //             console.log(err);
-    //         });
-    // }
-
     return (
         <>
             {

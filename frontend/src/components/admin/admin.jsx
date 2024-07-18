@@ -1,20 +1,28 @@
 import React from 'react';
 import styles from './admin.module.css';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState ,useEffect} from 'react';
+import { useNavigate,useLocation } from 'react-router-dom';
 import { Usercomponent } from './components/user';
 import { ProductComponent } from './components/product';
 import { Sellerapprove } from './components/sellerapprove';
+import { useStore } from '../../stores/authStore';
+import { observer } from 'mobx-react-lite';
 import Swal from 'sweetalert2';
 
-export function Admincomponent() {
-
+function Admincomponent() {
     const [arr, setArr] = useState([]);
     const [currentForm, setCurrentForm] = useState("none")
     const activeStyle = {
         backgroundColor: "red",
     }
     const navigate = useNavigate();
+    const location = useLocation();
+    const store = useStore();
+    useEffect(()=>{
+        if(store.role!=location.pathname){
+            navigate(store.role)
+        }
+    },[])
 
     function users() {
         fetch(import.meta.env.VITE_SERVER_API + "/users", {
@@ -53,8 +61,7 @@ export function Admincomponent() {
             body: JSON.stringify({ id, currentForm }),
             credentials: "include",
             cache: "no-store",
-        })
-            .then((response) => {
+        }).then((response) => {
                 if (response.ok) {
                     setArr(arr.filter(user => user._id !== id));
                     const userType = currentForm === "users" ? "User" : "Seller";
@@ -237,3 +244,5 @@ export function Admincomponent() {
         </div>
     );
 }
+
+export default observer(Admincomponent)

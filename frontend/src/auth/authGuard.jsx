@@ -6,7 +6,8 @@ const AuthGuard=({children})=>{
     const store = useStore()
     const {pathname} = useLocation()
     const allowedRoutes = [
-        '/'
+        '/',
+        '/admin'
     ]
     if(store.isLoggedIn||allowedRoutes.includes(pathname)){
         return children

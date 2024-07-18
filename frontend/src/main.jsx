@@ -8,7 +8,7 @@ import { Cartpagecomponent } from './components/cart/cartpage.jsx';
 import { Sellercomponent } from './components/seller/sellerpage.jsx';
 import { SellerSignUpComponent } from './components/Form/sellersignup.jsx';
 import { SellerLoginUpComponent } from './components/Form/sellerlogin.jsx';
-import { Admincomponent } from './components/admin/admin.jsx'
+import  Admincomponent  from './components/admin/admin.jsx'
 import { AuthProvider } from './stores/authStore.jsx';
 import AuthGuard from './auth/authGuard.jsx';
 
@@ -52,7 +52,7 @@ const router = createBrowserRouter([
   },
   {
     path:"admin",
-    element:<Admincomponent />
+    element: <AuthGuard><Admincomponent /></AuthGuard>,
   }
 ])
 
